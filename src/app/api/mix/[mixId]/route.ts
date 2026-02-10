@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { getUserByEmail } from "@/lib/db/queries/users";
 import { getMixWithDetails } from "@/lib/db/queries/mixes";
+import { getImageSignedUrl } from "@/lib/storage/r2";
 
 export async function GET(
   _request: NextRequest,
@@ -35,5 +36,26 @@ export async function GET(
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  return NextResponse.json(data);
+  // Convert R2 keys to signed URLs for all images
+  const generations = await Promise.all(
+    data.generations.map(async (gen) => ({
+      ...gen,
+      imageUrl: gen.imageUrl ? await getImageSignedUrl(gen.imageUrl) : null,
+    }))
+  );
+
+  const synthesis = data.synthesis
+    ? {
+        ...data.synthesis,
+        imageUrl: data.synthesis.imageUrl
+          ? await getImageSignedUrl(data.synthesis.imageUrl)
+          : null,
+      }
+    : null;
+
+  return NextResponse.json({
+    ...data,
+    generations,
+    synthesis,
+  });
 }

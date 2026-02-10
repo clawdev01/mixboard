@@ -46,20 +46,6 @@ export default function SignupPage() {
     router.push("/login");
   }
 
-  async function handleGoogleSignup() {
-    const supabase = createClient();
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
-    });
-
-    if (error) {
-      toast.error(error.message);
-    }
-  }
-
   return (
     <main className="flex min-h-screen items-center justify-center p-4">
       <Card className="w-full max-w-md">
@@ -98,25 +84,6 @@ export default function SignupPage() {
               {loading ? "Creating account..." : "Create account"}
             </Button>
           </form>
-
-          <div className="relative my-6">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t" />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-card px-2 text-muted-foreground">
-                Or continue with
-              </span>
-            </div>
-          </div>
-
-          <Button
-            variant="outline"
-            className="w-full"
-            onClick={handleGoogleSignup}
-          >
-            Continue with Google
-          </Button>
         </CardContent>
         <CardFooter className="justify-center">
           <p className="text-sm text-muted-foreground">

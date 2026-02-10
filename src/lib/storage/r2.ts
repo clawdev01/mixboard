@@ -20,7 +20,7 @@ function getS3Client(): S3Client {
 
 /**
  * Compress image to WebP and upload to R2.
- * Returns the public URL of the uploaded image.
+ * Returns the R2 storage key (not a URL).
  */
 export async function uploadImage(
   buffer: Buffer,
@@ -41,11 +41,12 @@ export async function uploadImage(
     })
   );
 
-  return `${process.env.R2_PUBLIC_URL}/${key}`;
+  return key;
 }
 
 /**
- * Upload a raw buffer to R2 without compression (for already-processed images).
+ * Upload a raw buffer to R2 without compression.
+ * Returns the R2 storage key (not a URL).
  */
 export async function uploadRaw(
   buffer: Buffer,
@@ -62,7 +63,7 @@ export async function uploadRaw(
     })
   );
 
-  return `${process.env.R2_PUBLIC_URL}/${key}`;
+  return key;
 }
 
 /**
@@ -104,16 +105,6 @@ export async function downloadImage(key: string): Promise<Buffer> {
     chunks.push(chunk);
   }
   return Buffer.concat(chunks);
-}
-
-/**
- * Download an image from a full URL (R2 public URL).
- */
-export async function downloadImageFromUrl(url: string): Promise<Buffer> {
-  const response = await fetch(url);
-  if (!response.ok) throw new Error(`Failed to download image: ${url}`);
-  const arrayBuffer = await response.arrayBuffer();
-  return Buffer.from(arrayBuffer);
 }
 
 /**

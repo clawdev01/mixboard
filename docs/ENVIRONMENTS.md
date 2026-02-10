@@ -19,7 +19,6 @@
 | Variable | Scope | Description |
 |----------|-------|-------------|
 | `TRIGGER_SECRET_KEY` | Server only | Trigger.dev secret key |
-| `NEXT_PUBLIC_TRIGGER_PUBLIC_API_KEY` | Client + Server | Trigger.dev public API key (for realtime) |
 
 ### Cloudflare R2
 | Variable | Scope | Description |
@@ -28,7 +27,11 @@
 | `R2_ACCESS_KEY_ID` | Server only | R2 access key |
 | `R2_SECRET_ACCESS_KEY` | Server only | R2 secret key |
 | `R2_BUCKET_NAME` | Server only | R2 bucket name |
-| `R2_PUBLIC_URL` | Server only | Public URL for R2 bucket |
+
+## Notes
+- All images are served via signed URLs (1-hour expiry). No public R2 URL needed.
+- Trigger.dev Realtime uses `publicAccessToken` from `tasks.trigger()` server-side — no public API key needed.
+- Google OAuth is disabled. Auth is email/password only.
 
 ## Setup
 1. Create Supabase project at supabase.com

@@ -4,14 +4,13 @@ import type { SelectionCategory } from "@/types";
 interface MixState {
   mixId: string | null;
   runId: string | null;
-  publicAccessToken: string | null;
 
   // Selection state: category → generationId
   selections: Partial<Record<SelectionCategory, string>>;
   additionalInstructions: string;
 
   // Actions
-  setMixContext: (mixId: string, runId: string, token: string) => void;
+  setMixContext: (mixId: string, runId: string) => void;
   setSelection: (category: SelectionCategory, generationId: string) => void;
   removeSelection: (category: SelectionCategory) => void;
   setAdditionalInstructions: (instructions: string) => void;
@@ -22,12 +21,11 @@ interface MixState {
 export const useMixStore = create<MixState>((set) => ({
   mixId: null,
   runId: null,
-  publicAccessToken: null,
   selections: {},
   additionalInstructions: "",
 
-  setMixContext: (mixId, runId, token) =>
-    set({ mixId, runId, publicAccessToken: token }),
+  setMixContext: (mixId, runId) =>
+    set({ mixId, runId }),
 
   setSelection: (category, generationId) =>
     set((state) => ({
@@ -49,7 +47,6 @@ export const useMixStore = create<MixState>((set) => ({
     set({
       mixId: null,
       runId: null,
-      publicAccessToken: null,
       selections: {},
       additionalInstructions: "",
     }),

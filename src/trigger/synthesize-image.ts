@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 import { getModelAdapter } from "@/services/models";
 import {
   uploadImage,
-  downloadImageFromUrl,
+  downloadImage,
   synthesisKey,
 } from "@/lib/storage/r2";
 import { STYLE_VARIANTS } from "@/types";
@@ -74,9 +74,9 @@ export const synthesizeImageTask = task({
         .from(selections)
         .where(eq(selections.mixId, mixId));
 
-      // Download all source images
+      // Download all source images from R2 by key
       const sourceImages = await Promise.all(
-        completedGens.map((g) => downloadImageFromUrl(g.imageUrl!))
+        completedGens.map((g) => downloadImage(g.imageUrl!))
       );
 
       // Map selections to source indices

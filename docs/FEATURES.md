@@ -3,7 +3,7 @@
 ## Must Have (MVP)
 - [x] Project scaffold + shadcn/ui + dark mode
 - [x] Database schema (Drizzle)
-- [x] Authentication (email/password + Google OAuth)
+- [x] Authentication (email/password)
 - [x] Gemini model adapter with 3 style variants
 - [x] R2 image storage
 - [x] Trigger.dev generation orchestration
@@ -18,7 +18,7 @@
 - [x] Mobile responsive design
 
 ## Nice to Have (Post-MVP)
-- [x] Google OAuth sign-in (scaffolded)
+- [ ] Google OAuth sign-in (disabled for now)
 - [ ] Magic link sign-in
 - [ ] Stripe credit purchase
 - [x] Image download (full resolution)
