@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(export NODE_OPTIONS=\"--max-old-space-size=4096\")",
+      "Bash(pnpm install:*)",
+      "Bash(pnpm dlx:*)",
+      "Bash(timeout 30 pnpm dev:*)",
+      "Bash(git init:*)",
+      "Bash(git add:*)",
+      "Bash(pnpm db:push:*)",
+      "Bash(pnpm add:*)",
+      "Bash(gh auth login:*)",
+      "Bash(where:*)",
+      "Bash(winget install:*)",
+      "Bash(scoop install:*)",
+      "mcp__github__create_repository",
+      "Bash(curl:*)",
+      "Bash(python3:*)",
+      "Bash(git remote add:*)",
+      "Bash(git branch:*)",
+      "Bash(git commit:*)"
+    ]
+  }
+}
