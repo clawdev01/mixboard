@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -27,23 +26,27 @@ export default function SignupPage() {
     e.preventDefault();
     setLoading(true);
 
-    const supabase = createClient();
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
-      },
-    });
+    try {
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-    if (error) {
-      toast.error(error.message);
+      const data = await res.json();
+
+      if (!res.ok) {
+        toast.error(data.error || "Signup failed");
+        setLoading(false);
+        return;
+      }
+
+      toast.success("Account created! You can now sign in.");
+      router.push("/login");
+    } catch {
+      toast.error("Network error. Please try again.");
       setLoading(false);
-      return;
     }
-
-    toast.success("Check your email to confirm your account!");
-    router.push("/login");
   }
 
   return (
