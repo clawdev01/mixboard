@@ -18,7 +18,24 @@
       "Bash(python3:*)",
       "Bash(git remote add:*)",
       "Bash(git branch:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(git config:*)",
+      "Bash(git push:*)",
+      "Bash(railway:*)",
+      "Bash(npm install:*)",
+      "Bash(RAILWAY_TOKEN=08ab1dcf-ff80-443a-91bd-272bc1be8957 railway whoami:*)",
+      "Bash(RAILWAY_TOKEN=08ab1dcf-ff80-443a-91bd-272bc1be8957 railway status:*)",
+      "Bash(RAILWAY_TOKEN=cb6f0a48-bc6b-4037-ad1a-076086c10317 railway whoami:*)",
+      "Bash(pnpm build:*)",
+      "Bash(RAILWAY_TOKEN=4f7322de-a12d-4e00-a5c2-dfaef7b04f71 railway whoami:*)",
+      "Bash(node --version:*)",
+      "Bash(PROJ_ID=\"38349668-a089-43d1-acea-15b1d3405fc6\":*)",
+      "Bash(ENV_ID=\"edd85876-478f-4c20-a0f2-dab0621e6453\")",
+      "Bash(SVC_ID=\"ed2a52d0-808b-44b7-8ac1-af39d87ac432\")",
+      "Bash(__NEW_LINE_e1b4c29d66e00a55__ curl -s -X POST \"https://backboard.railway.com/graphql/v2\" -H \"Content-Type: application/json\" -H \"Authorization: Bearer 4f7322de-a12d-4e00-a5c2-dfaef7b04f71\" -d \"{\"\"query\"\":\"\"mutation { serviceInstanceRedeploy\\(environmentId: \\\\\"\"$ENV_ID\\\\\"\", serviceId: \\\\\"\"$SVC_ID\\\\\"\"\\) }\"\"}\")",
+      "Bash(node -e:*)",
+      "Bash(npx pnpm@9 install:*)",
+      "Bash(npx pnpm@9 run build)"
     ]
   }
 }
