@@ -38,7 +38,7 @@ export const generateMixTask = task({
           .insert(generations)
           .values({
             mixId,
-            modelName: "gemini-2.0-flash-preview-image-generation",
+            modelName: "gemini-2.5-flash-image",
             modelProvider: "google",
             styleVariant: style,
             status: "pending",

@@ -8,7 +8,7 @@ import type {
   SynthesisResult,
 } from "./types";
 
-const MODEL_NAME = "gemini-2.0-flash-preview-image-generation";
+const MODEL_NAME = "gemini-2.5-flash-image";
 
 export class GeminiAdapter implements ModelAdapter {
   private ai: GoogleGenAI;
