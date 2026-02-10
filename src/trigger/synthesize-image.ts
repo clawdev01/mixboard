@@ -63,9 +63,12 @@ export const synthesizeImageTask = task({
 
       // Sort by style variant order to maintain consistent indexing
       completedGens.sort(
-        (a, b) =>
-          STYLE_VARIANTS.indexOf(a.styleVariant as (typeof STYLE_VARIANTS)[number]) -
-          STYLE_VARIANTS.indexOf(b.styleVariant as (typeof STYLE_VARIANTS)[number])
+        (a, b) => {
+          const aIdx = STYLE_VARIANTS.indexOf(a.styleVariant as (typeof STYLE_VARIANTS)[number]);
+          const bIdx = STYLE_VARIANTS.indexOf(b.styleVariant as (typeof STYLE_VARIANTS)[number]);
+          if (aIdx !== -1 && bIdx !== -1) return aIdx - bIdx;
+          return a.createdAt.getTime() - b.createdAt.getTime();
+        }
       );
 
       // Fetch selections

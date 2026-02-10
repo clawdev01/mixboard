@@ -1,6 +1,5 @@
 export interface GenerationRequest {
   prompt: string;
-  styleVariant: string;
 }
 
 export interface GenerationResult {

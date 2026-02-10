@@ -2,9 +2,14 @@ import { task, logger } from "@trigger.dev/sdk/v3";
 import { db } from "@/lib/db";
 import { mixes, generations } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
-import { STYLE_VARIANTS } from "@/types";
 import { generateImageTask } from "./generate-image";
 import { refundCredit } from "@/lib/db/queries/users";
+
+const MODEL_CONFIGS = [
+  { provider: "google", modelName: "gemini-2.5-flash-image", styleVariant: "gemini" },
+  { provider: "openai", modelName: "gpt-image-1", styleVariant: "gpt_image" },
+  { provider: "huggingface", modelName: "FLUX.1-schnell", styleVariant: "flux" },
+] as const;
 
 export interface GenerateMixPayload {
   mixId: string;
@@ -31,16 +36,16 @@ export const generateMixTask = task({
       .set({ status: "generating", updatedAt: new Date() })
       .where(eq(mixes.id, mixId));
 
-    // Create 3 generation records (one per style variant)
+    // Create 3 generation records (one per model)
     const genRecords = await Promise.all(
-      STYLE_VARIANTS.map((style) =>
+      MODEL_CONFIGS.map((config) =>
         db
           .insert(generations)
           .values({
             mixId,
-            modelName: "gemini-2.5-flash-image",
-            modelProvider: "google",
-            styleVariant: style,
+            modelName: config.modelName,
+            modelProvider: config.provider,
+            styleVariant: config.styleVariant,
             status: "pending",
           })
           .returning()
@@ -49,12 +54,13 @@ export const generateMixTask = task({
 
     // Fan out 3 parallel generation tasks
     const results = await generateImageTask.batchTriggerAndWait(
-      genRecords.map(([gen]) => ({
+      genRecords.map(([gen], i) => ({
         payload: {
           generationId: gen.id,
           mixId,
           prompt,
           styleVariant: gen.styleVariant,
+          provider: MODEL_CONFIGS[i].provider,
         },
       }))
     );

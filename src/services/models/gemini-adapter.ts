@@ -1,5 +1,4 @@
 import { GoogleGenAI } from "@google/genai";
-import { STYLE_PROMPTS, type StyleVariant } from "@/types";
 import type {
   ModelAdapter,
   GenerationRequest,
@@ -19,13 +18,10 @@ export class GeminiAdapter implements ModelAdapter {
 
   async generateImage(request: GenerationRequest): Promise<GenerationResult> {
     const start = Date.now();
-    const styleModifier =
-      STYLE_PROMPTS[request.styleVariant as StyleVariant] ?? "";
-    const fullPrompt = `${request.prompt}${styleModifier}`;
 
     const response = await this.ai.models.generateContent({
       model: MODEL_NAME,
-      contents: fullPrompt,
+      contents: request.prompt,
       config: {
         responseModalities: ["IMAGE"],
       },

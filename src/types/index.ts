@@ -5,19 +5,13 @@ export type SynthesisStatus = "pending" | "synthesizing" | "completed" | "failed
 
 export type SelectionCategory = "composition" | "colors" | "subject" | "style" | "background";
 
-export const STYLE_VARIANTS = ["photorealistic", "digital_art", "cinematic"] as const;
+export const STYLE_VARIANTS = ["gemini", "gpt_image", "flux"] as const;
 export type StyleVariant = (typeof STYLE_VARIANTS)[number];
 
 export const STYLE_VARIANT_LABELS: Record<StyleVariant, string> = {
-  photorealistic: "Photorealistic",
-  digital_art: "Digital Art",
-  cinematic: "Cinematic",
-};
-
-export const STYLE_PROMPTS: Record<StyleVariant, string> = {
-  photorealistic: ", photorealistic, high detail, natural lighting, DSLR photo quality",
-  digital_art: ", digital art style, vibrant colors, stylized, illustration quality, concept art",
-  cinematic: ", cinematic composition, dramatic lighting, film still, movie scene, wide angle",
+  gemini: "Gemini",
+  gpt_image: "GPT Image",
+  flux: "FLUX",
 };
 
 export const SELECTION_CATEGORIES: {

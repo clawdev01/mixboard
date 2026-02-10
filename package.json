@@ -29,6 +29,7 @@
     "lucide-react": "latest",
     "next": "latest",
     "next-themes": "latest",
+    "openai": "^6.19.0",
     "postgres": "latest",
     "radix-ui": "^1.4.3",
     "react": "^19",

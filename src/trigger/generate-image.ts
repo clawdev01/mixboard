@@ -10,6 +10,7 @@ export interface GenerateImagePayload {
   mixId: string;
   prompt: string;
   styleVariant: string;
+  provider: string;
 }
 
 export interface GenerateImageOutput {
@@ -24,8 +25,8 @@ export const generateImageTask = task({
     maxAttempts: 2,
   },
   run: async (payload: GenerateImagePayload): Promise<GenerateImageOutput> => {
-    const { generationId, mixId, prompt, styleVariant } = payload;
-    logger.info("Starting image generation", { generationId, styleVariant });
+    const { generationId, mixId, prompt, provider } = payload;
+    logger.info("Starting image generation", { generationId, provider });
 
     // Update status to generating
     await db
@@ -34,8 +35,8 @@ export const generateImageTask = task({
       .where(eq(generations.id, generationId));
 
     try {
-      const adapter = getModelAdapter("google");
-      const result = await adapter.generateImage({ prompt, styleVariant });
+      const adapter = getModelAdapter(provider);
+      const result = await adapter.generateImage({ prompt });
 
       // Upload to R2
       const key = generationKey(mixId, generationId);
@@ -55,6 +56,7 @@ export const generateImageTask = task({
 
       logger.info("Image generation completed", {
         generationId,
+        provider,
         generationTimeMs: result.generationTimeMs,
       });
 
@@ -68,7 +70,7 @@ export const generateImageTask = task({
         .set({ status: "failed", errorMessage: message })
         .where(eq(generations.id, generationId));
 
-      logger.error("Image generation failed", { generationId, error: message });
+      logger.error("Image generation failed", { generationId, provider, error: message });
       throw error;
     }
   },
