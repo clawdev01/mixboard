@@ -1,7 +1,7 @@
 import { defineConfig } from "@trigger.dev/sdk/v3";
 
 export default defineConfig({
-  project: "proj_mixboard",
+  project: "proj_nrwxcosvwvajljomgdfp",
   dirs: ["./src/trigger"],
   retries: {
     enabledInDev: false,
